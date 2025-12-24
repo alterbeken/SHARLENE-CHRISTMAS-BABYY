@@ -314,9 +314,44 @@ body {
 svg {
   width: 45%;
   height: 70%;
-  visibility: hidden;
+  visibility: visible;
   position: relative;
   z-index: 1;
+  opacity: 0;
+  animation: treeAppear 1.5s ease-out forwards;
+  animation-delay: 1s;
+}
+
+@keyframes treeAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Tree Star Animation */
+.treeStar {
+  animation: starBounce 2s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes starBounce {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    transform: scale(1.1) rotate(-5deg);
+  }
+  50% {
+    transform: scale(1) rotate(0deg);
+  }
+  75% {
+    transform: scale(1.1) rotate(5deg);
+  }
 }
 
 /* Christmas Lights on Tree */
@@ -583,11 +618,11 @@ svg {
 }
 
 .mailbox-header {
-  background: linear-gradient(135deg, #66fffc, #44c1ff);
+  background: linear-gradient(135deg, #ffcc66, #ffaa44);
   padding: 30px;
   text-align: center;
   border-radius: 17px 17px 0 0;
-  border-bottom: 3px solid #749ed4;
+  border-bottom: 3px solid #d4a574;
   position: relative;
 }
 

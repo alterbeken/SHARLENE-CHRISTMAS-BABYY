@@ -183,9 +183,11 @@ volumeControl.addEventListener('input', (e) => {
 });
 
 // Christmas Tree Animation
-MorphSVGPlugin.convertToPath("polygon");
+// Register GSAP Plugins
+gsap.registerPlugin(MotionPathPlugin, Physics2DPlugin);
 
 var xmlns = "http://www.w3.org/2000/svg",
+  xlinkns = "http://www.w3.org/1999/xlink",
   xlinkns = "http://www.w3.org/1999/xlink",
   select = function (s) {
     return document.querySelector(s);
@@ -372,79 +374,63 @@ function drawStar() {
       x: treeBottomPath[0].x,
       y: treeBottomPath[0].y
     })
-    .to(
-      ".pContainer, .sparkle",
-      {
-        duration: 2,
-        onStart: function () {
-          showParticle = true;
-        },
-        motionPath: {
-          path: ".treeBottomPath",
-          autoRotate: false
-        },
-        ease: "linear"
+    .to(".pContainer, .sparkle", {
+      duration: 2,
+      onStart: function () {
+        showParticle = true;
       },
-      "-=0"
-    )
-    .from(
-      ".treeBottomMask",
-      {
-        duration: 2,
-        drawSVG: "0% 0%",
-        stroke: "#FFF",
-        ease: "linear"
+      motionPath: {
+        path: ".treeBottomPath",
+        autoRotate: false
       },
-      "-=2"
-    );
+      ease: "linear"
+    }, "-=0");
 }
 
 createParticles();
 drawStar();
 createChristmasLights();
 
+// Animate tree drawing
+gsap.to('.tree-main', {
+  strokeDashoffset: 0,
+  duration: 6,
+  ease: 'linear'
+});
+
+gsap.to('.treeBottom', {
+  opacity: 1,
+  duration: 1,
+  delay: 7,
+  ease: 'power2.inOut'
+});
+
+gsap.to('.treePot', {
+  opacity: 1,
+  duration: 1,
+  delay: 8,
+  ease: 'power2.inOut'
+});
+
 mainTl
-  .from([".treePathMask", ".treePotMask"], {
-    duration: 6,
-    drawSVG: "0% 0%",
-    stroke: "#FFF",
-    stagger: {
-      each: 6
-    },
-    duration: gsap.utils.wrap([6, 1, 2]),
-    ease: "linear"
+  .from(".treeStar", {
+    duration: 3,
+    scaleY: 0,
+    scaleX: 0.15,
+    transformOrigin: "50% 50%",
+    ease: "elastic(1,0.5)",
+    delay: 3
   })
-  .from(
-    ".treeStar",
-    {
-      duration: 3,
-      scaleY: 0,
-      scaleX: 0.15,
-      transformOrigin: "50% 50%",
-      ease: "elastic(1,0.5)"
-    },
-    "-=4"
-  )
-  .to(
-    ".sparkle",
-    {
-      duration: 3,
-      opacity: 0,
-      ease:
-        "rough({strength: 2, points: 100, template: linear, taper: both, randomize: true, clamp: false})"
-    },
-    "-=0"
-  )
-  .to(
-    ".treeStarOutline",
-    {
-      duration: 1,
-      opacity: 1,
-      ease:
-        "rough({strength: 2, points: 16, template: linear, taper: none, randomize: true, clamp: false})"
-    },
-    "+=1"
-  );
+  .to(".sparkle", {
+    duration: 3,
+    opacity: 0,
+    ease: "power2.inOut"
+  }, "-=1")
+  .to(".treeStarOutline", {
+    duration: 1,
+    opacity: 1,
+    ease: "power2.inOut"
+  }, "+=1");
 
 mainTl.add(starTl, 0);
 gsap.globalTimeline.timeScale(1.5);
