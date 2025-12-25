@@ -15,7 +15,7 @@ function createSnowflakes() {
   }
 }
 
-// Create Mini Town
+// Mini Town
 function createMiniTown() {
   const town = document.getElementById('miniTown');
   const houses = [
